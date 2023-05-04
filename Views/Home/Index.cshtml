@@ -31,27 +31,57 @@
        function fnSum(){
             var x = parseInt($("#txt1").val());
             var y = parseInt($("#txt2").val());
+            
+            $.ajax({
+                type:"POST",
+                url:"@Url.Action("Add","Home")",
+                data: {num1: x, num2: y},
+                dataType:"text",
+                success: function(msg){
+                    alert(msg);
+                    $("#divResult").text(msg);
+                },
+                error: function(req,status,err){
 
-            var z =x+y;
-
-            $("#divResult").text(z);
+                }
+            })
+            //var z =x+y;
+            //$("#divResult").text(z);
         }
 
         function fnSub(){
             var x = parseInt($("#txt1").val());
             var y = parseInt($("#txt2").val());
 
-            var z =x-y;
+            $.ajax({
+                type:"POST",
+                url:"@Url.Action("Sub","Home")",
+                data: {num1:x,num2:y}
+                success:function(msg){
+                    alert("msg");
+                    $("#divResult").text(msg)
+                },
+                error:function(req,status,err){
 
-            $("#divResult").text(z);
+                }
+            })
+
         }
         function fnMul() {
             var x = parseInt($("#txt1").val());
             var y = parseInt($("#txt2").val());
 
-            var z = x * y;
+            $.ajax({
+                type:"POST",
+                url:"@Url.Action("Mul","Home")",
+                data:{num1:x,num2:y},
+                success:function(msg){
+                    $("#divResult").text(msg)
+                }
+                error:function(req,status,err){
 
-            $("#divResult").text(z);
+                }
+            })
         }
 
     </script>
