@@ -28,7 +28,17 @@ namespace DotNetCoreJquery.Controllers
         {
             return num1 + num2;
         }
-
+        [HttpPost]
+        public CalculateModel CalculateNumber(int num1, int num2, string text)
+        {
+            CalculateModel calculateModel = new();
+            calculateModel.Add = num1 + num2;
+            calculateModel.Sub = num1 - num2;
+            calculateModel.Mul = num1 * num2;
+            calculateModel.Divide =(decimal) num1/ num2;
+              
+            return calculateModel;
+        }
         [HttpPost]
         public int Sub(int num1, int num2)
         {

@@ -20,6 +20,7 @@
     <div class="col-md-2"><a href="javascript:void(0)" class="btn btn-success" onclick="fnSum()">ADD</a></div>
     <div class="col-md-2"><a href="javascript:void(0)" class="btn btn-success" onclick="fnSub()">SUB</a></div>
     <div class="col-md-2"><a href="javascript:void(0)" class="btn btn-success" onclick="fnMul()">MUL</a></div>
+    <div class="col-md-2"><a href="javascript:void(0)" class="btn btn-success" onclick="fnCalculate()">Calculate</a></div>
 </div>
 <div class="row">
     <div class="col-md-3"></div>
@@ -28,6 +29,27 @@
 @section Scripts
 {
    <script>
+        function fnCalculate(){
+            var x = parseInt($("#txt1").val());
+            var y = parseInt($("#txt2").val());
+
+            $.ajax({
+               type:"POST",
+                url: "@Url.Action("CalculateNumber","Home")",
+                data:{num1:x,num2:y,text:"hey"},
+                datatype:"text",
+                success:function(msg){
+                    debugger
+                    var result = "SUM : " + msg.add + "<br>SUB : " + msg.sub + "<br>MUL: " + msg.mul + "<br/>DIVIDE: " + msg.divide;
+
+                    $("#divResult").text(result);
+                },
+                error:function(req,status,err){
+
+                }
+
+            })
+        }
        function fnSum(){
             var x = parseInt($("#txt1").val());
             var y = parseInt($("#txt2").val());
@@ -36,7 +58,7 @@
                 type:"POST",
                 url:"@Url.Action("Add","Home")",
                 data: {num1: x, num2: y},
-                dataType:"text",
+                datatype:"text",
                 success: function(msg){
                     alert(msg);
                     $("#divResult").text(msg);
@@ -56,7 +78,7 @@
             $.ajax({
                 type:"POST",
                 url:"@Url.Action("Sub","Home")",
-                data: {num1:x,num2:y}
+                data: {num1:x,num2:y},
                 success:function(msg){
                     alert("msg");
                     $("#divResult").text(msg)
@@ -77,7 +99,7 @@
                 data:{num1:x,num2:y},
                 success:function(msg){
                     $("#divResult").text(msg)
-                }
+                },
                 error:function(req,status,err){
 
                 }
