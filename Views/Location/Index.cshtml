@@ -3,50 +3,107 @@
     ViewData["Title"] = "Index";
 }
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Country State City</h1>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Country State City</h1>
 
         <div class="row ">
-                <div class="col-md-3">
-                    Country
-                </div>
-                <div class="col-md-9">
-                <select id="ddlCountry" class="form-control">
-                        @*<option value="">Select Country</option>*@
-                    @foreach(var item in Model.CountryInfosList)
-                    {
-                        <option value="@item.CId">@item.CName</option>
-                    }
-                   
-                    </select>
-                </div>
+            <div class="col-md-3">
+                Country
             </div>
+            <div class="col-md-9">
+                @*<select id="ddlCountry" class="form-control">
+                @*<option value="">Select Country</option>
+                @foreach(var item in Model.CountryInfosList)
+                {
+                <option value="@item.CId">@item.CName</option>
+                }
+
+                </select>*@
+
+                <select id="ddlCountry" class="form-control" asp-items="@(new SelectList(Model.CountryInfosList,"CId","CName"))" onchange="fnStateList()"></select>
+            </div>
+        </div>
 
         <div class="row">
-                <div class="col-md-3">
-                    State
-                </div>
-                <div class="col-md-9">
-                    <select id="ddlState" class="form-control">
-                        <option value="">Select state</option>
-                        <option value="1">Delhi</option>
-                        <option value="2">Bihar</option>
-                    </select>
-                </div>
+            <div class="col-md-3">
+                State
             </div>
+            <div class="col-md-9">
+                <select id="ddlState" class="form-control" onchange="fnCityList()">
+                    <option value="">Select state</option>
+                    <option value="1">Delhi</option>
+                    <option value="2">Bihar</option>
+                </select>
+
+            </div>
+        </div>
 
         <div class="row">
-                <div class="col-md-3">
-                    City
-                </div>
-                <div class="col-md-9">
+            <div class="col-md-3">
+                City
+            </div>
+            <div class="col-md-9">
                 <select id="ddlCity" class="form-control">
-                        <option value="">Select City</option>
-                        <option value="1">Delhi</option>
-                        <option value="2">Mumbai</option>
-                    </select>
-                </div>
+                    <option value="">Select City</option>
+                    <option value="1">Delhi</option>
+                    <option value="2">Mumbai</option>
+                </select>
             </div>
         </div>
     </div>
+</div>
+@section Scripts{
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        function fnStateList(){
+            debugger;
+            var StateName = $('#ddlState');
+            StateName.empty();
+            
+            $.ajax({
+                type:"POST",
+                url: "@Url.Action("StateData","Location")",
+                data: {cid: $("#ddlCountry").val()},
+                dataType:"json",
+                success:function(result){
+                    console.log(result);
+                    StateName.append(`<option value="">Select the state</option>`)
+                    $.each(result.stateInfosList, function (index, a) {
+                        StateName.append(`
+                            <option value = "${a.sId}">${a.sName}</option>
+                        `)
+                    })
+                },
+                error:function(res,err,status){
+
+                }
+            })
+        }
+
+        function fnCityList(){
+            var CityName = $("ddlCity");
+            CityName.empty();
+
+            $.ajax({
+                type:"POST",
+                url: "@Url.Action("CityData","Location")",
+                data:{cid: $("ddlState").val()},
+                datatype:"json",
+                success:function(result){
+                    CityName.append(`<option value="">Select the city</option>`)
+                    $.each(result.cityInfosList, function(index,a){
+                        CityName.append(`
+                                <option value = "${a.cityId}">${a.cityName}</option>
+                        `)
+                    })
+                },
+                error:function(err,response,status){
+
+                }
+            })
+        }
+    </script>
+}
