@@ -84,13 +84,13 @@
         }
 
         function fnCityList(){
-            var CityName = $("ddlCity");
+            var CityName = $("#ddlCity");
             CityName.empty();
 
             $.ajax({
                 type:"POST",
                 url: "@Url.Action("CityData","Location")",
-                data:{cid: $("ddlState").val()},
+                data:{cid: $("#ddlState").val()},
                 datatype:"json",
                 success:function(result){
                     CityName.append(`<option value="">Select the city</option>`)

@@ -43,7 +43,7 @@ namespace DotNetCoreJquery.Controllers
         }
 
         [HttpPost]
-        public ActionResult CityData(int cid = 103)
+        public ActionResult CityData(int cid)
         {
             List<CityInfo> cityInfos = new List<CityInfo>()
             {
@@ -57,7 +57,7 @@ namespace DotNetCoreJquery.Controllers
                 
             };
             CitiesInfo model = new();
-            model.CityInfosList = cityInfos.Where(s => s.CityId == cid).ToList();
+            model.CityInfosList = cityInfos.Where(s => s.SId == cid).ToList();
             return Json(model);
         }
     }
