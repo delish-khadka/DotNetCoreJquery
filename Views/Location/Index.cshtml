@@ -5,24 +5,45 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h1>Country State City</h1>
+        <h1>Form Data</h1>
+
+        <div class="row ">
+            <div class="col-md-3">
+                Name
+            </div>
+            <div class="col-md-9">
+                <input type="text" id="txtName" class="form-control" onchange="return CheckValidationHide(this)">
+                <span id="errName" style="color:red;"></span>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-3">
+                Mobile Number
+            </div>
+            <div class="col-md-9">
+                <input type="text" id="txtNum" maxlength="10" onkeypress="return isNumber(event)" onchange="return CheckValidationHide(this)" class="form-control">
+                <span id="errNumber" style="color:red;"></span>
+
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-3">
+                Email
+            </div>
+            <div class="col-md-9">
+                <input type="text" id="txtEmail" onchange="return CheckValidationHide(this)" class="form-control">
+                <span id="errEmail" style="color:red;"></span>
+
+            </div>
+        </div>
 
         <div class="row ">
             <div class="col-md-3">
                 Country
             </div>
             <div class="col-md-9">
-                @*<select id="ddlCountry" class="form-control">
-                @*<option value="">Select Country</option>
-                @foreach(var item in Model.CountryInfosList)
-                {
-                <option value="@item.CId">@item.CName</option>
-                }
-
-                </select>*@
-
-                @*<select id="ddlCountry" class="form-control" asp-items="@(new SelectList(Model.CountryInfosList,"CId","CName"))" onchange="fnStateList()"></select>*@
-                <select id="ddlCountry" class="form-control" onchange="fnStateList()">
+                
+                <select id="ddlCountry" class="form-control" onchange="fnStateList(this)">
 
                 </select>
             </div>
@@ -54,13 +75,135 @@
                 </select>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-3">
+               
+            </div>
+            <div class="col-md-9">
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="SaveRecord()">Submit</a>
+                <a href="javascript:void(0)" class="btn btn-warning" onclick="resetForm()">Reset</a>
+            </div>
+        </div>
     </div>
 </div>
 @section Scripts{
 
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/validation.js"></script>
     <script type="text/javascript">
+        
+
+        function SaveRecord(){
+            if(!ValidateInfo()){
+                return false;
+
+            }
+            alert("validated form");
+        }
+
+        function ValidateInfo(){
+            var result = true;
+
+            if($('#txtName').val().trim().length == 0){
+                debugger
+                $("#errName").show();
+                $("#errName").text("Your name is Required");
+                result = false;
+            }
+            else{
+                $("#errName").hide();
+            }
+
+            if ($('#txtNum').val().trim().length == 0) {
+                debugger
+                $("#errNumber").show();
+                $("#errNumber").text("Your Number is Required");
+                result = false;
+            }
+            else {
+               if(fnValidateMobileNo($("#txtNum").val().trim())){
+                   $("#errNumber").hide();
+               }
+               else{
+                   $("#errNumber").show();
+                   $("#errNumber").text("Enter valid Number")
+                   result = false;
+               }
+            }
+
+            if ($('#txtEmail').val().trim().length == 0) {
+                debugger
+                $("#errEmail").show();
+                $("#errEmail").text("Your email is Required");
+                result = false;
+            }
+            else {
+                if (validEmail($("#txtEmail").val().trim())) {
+                    $("#errEmail").hide();
+                }
+                else {
+                    $("#errEmail").show();
+                    $("#errEmail").text("Enter valid email")
+                    result = false;
+                }
+            }
+            return result;
+        }
+
+        function CheckValidationHide(x){
+            let id = x.id;
+
+            if(id=="txtName"){
+                if ($('#txtName').val().trim().length == 0) {
+                    debugger
+                    $("#errName").show();
+                    $("#errName").text("Your name is Required");
+                    result = false;
+                }
+                else {
+                    $("#errName").hide();
+                }
+            }
+            else if(id == "txtNum"){
+                if ($('#txtNum').val().trim().length == 0) {
+                    debugger
+                    $("#errNumber").show();
+                    $("#errNumber").text("Your Number is Required");
+                    result = false;
+                }
+                else {
+                    if (fnValidateMobileNo($("#txtNum").val().trim())) {
+                        $("#errNumber").hide();
+                    }
+                    else {
+                        $("#errNumber").show();
+                        $("#errNumber").text("Enter valid Number")
+                        result = false;
+                    }
+                }
+            }
+            else if (id == "txtEmail") {
+                if ($('#txtEmail').val().trim().length == 0) {
+                    debugger
+                    $("#errEmail").show();
+                    $("#errEmail").text("Your email is Required");
+                    result = false;
+                }
+                else {
+                    if (validEmail($("#txtEmail").val().trim())) {
+                        $("#errEmail").hide();
+                    }
+                    else {
+                        $("#errEmail").show();
+                        $("#errEmail").text("Enter valid email")
+                        result = false;
+                    }
+                }
+            }
+        }
+
         $(document).ready(function(){
             fnCountryList();
         });
@@ -139,5 +282,13 @@
                 }
             })
         }
+
+        function resetForm(){
+            $("#txtName").val("");
+            $("#txtNum").val("");
+            $("#txtEmail").val("");
+
+        }
+
     </script>
 }
