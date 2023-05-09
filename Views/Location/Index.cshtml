@@ -21,7 +21,10 @@
 
                 </select>*@
 
-                <select id="ddlCountry" class="form-control" asp-items="@(new SelectList(Model.CountryInfosList,"CId","CName"))" onchange="fnStateList()"></select>
+                @*<select id="ddlCountry" class="form-control" asp-items="@(new SelectList(Model.CountryInfosList,"CId","CName"))" onchange="fnStateList()"></select>*@
+                <select id="ddlCountry" class="form-control" onchange="fnStateList()">
+
+                </select>
             </div>
         </div>
 
@@ -58,6 +61,36 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript">
+        $(document).ready(function(){
+            fnCountryList();
+        });
+
+        function fnCountryList() {
+            debugger;
+            var CountryName = $('#ddlCountry');
+            CountryName.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CountryData","Location")",
+                
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    CountryName.append(`<option value="">Select the Country</option>`)
+                    $.each(result.countryInfosList, function (index, a) {
+                        CountryName.append(`
+                                    <option value = "${a.cId}">${a.cName}</option>
+                                `)
+                    })
+                    fnCityList();
+                },
+                error: function (res, err, status) {
+
+                }
+            })
+        }
+
         function fnStateList(){
             debugger;
             var StateName = $('#ddlState');

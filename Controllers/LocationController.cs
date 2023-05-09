@@ -7,19 +7,31 @@ namespace DotNetCoreJquery.Controllers
     {
         public IActionResult Index()
         {
-            CitiesInfo citiesInfo = new CitiesInfo();
-            //citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 0, CName = "Select Country" });
+            //CitiesInfo citiesInfo = new CitiesInfo();
+            ////citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 0, CName = "Select Country" });
 
-            citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 101, CName = "India" });
-            citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 102, CName = "Nepal" });
-            citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 103, CName = "Bhutan" });
-            citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 104, CName = "Bangladesh" });
-            citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 105, CName = "China" });
-            citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 106, CName = "Srilanka" });
+            //citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 101, CName = "India" });
+            //citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 102, CName = "Nepal" });
+            //citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 103, CName = "Bhutan" });
+            //citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 104, CName = "Bangladesh" });
+            //citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 105, CName = "China" });
+            //citiesInfo.CountryInfosList.Add(new CountryInfo { CId = 106, CName = "Srilanka" });
 
-            return View(citiesInfo);
+            return View();
         }
 
+        [HttpPost]
+        public ActionResult CountryData()
+        {
+            CitiesInfo model = new CitiesInfo();
+            model.CountryInfosList.Add(new CountryInfo { CId = 101, CName = "India" });
+            model.CountryInfosList.Add(new CountryInfo { CId = 102, CName = "Nepal" });
+            model.CountryInfosList.Add(new CountryInfo { CId = 103, CName = "Bhutan" });
+            model.CountryInfosList.Add(new CountryInfo { CId = 104, CName = "Bangladesh" });
+            model.CountryInfosList.Add(new CountryInfo { CId = 105, CName = "China" });
+            model.CountryInfosList.Add(new CountryInfo { CId = 106, CName = "Srilanka" });
+            return Json(model);
+        }
         [HttpPost]
         public ActionResult StateData(int cid)
         {
